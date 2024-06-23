@@ -1,8 +1,8 @@
 ﻿actionId,actionName,actionDescription,adjacentAffectType,actionDurationEffect,isFood,isAccessory,actionEffect,tile,tileType,actionCost,actionTime,image
 fishing,fishing,increase benefit for any adjacent same tile,sameTileBenefit,money:0.2|polution:1,1,,,,shallowWater,human:1|money:1,1,fishing
 protect,protect,you can't do action on any nearby area,blockActionAround,polution:-1,,,,,shallowWater,tech:1|money:1,2,protect
-coralHarvest,coralHarvest,increase benefit for any adjacent same tile,sameTileBenefit,money:2|polution:2,,1,,coralReef,shallowWater,money:3|human:1,2,harvest
-coralTransplantation,coralTransplantation,"increase benefit for any adjacent same tile,only works if there is other coral tile nearby",,polution:-1,,,,coralReef,shallowWater,tech:5|human:2,4,coralTransplantation
+coralHarvest,coralHarvest,increase benefit for any adjacent same tile,sameTileBenefit,money:2|polution:2,,1,,coralReef,,money:3|human:1,2,harvest
+coralTransplantation,coralTransplantation,"increase benefit for any adjacent same tile,only works if there is other coral tile nearby",,polution:-1,,,,coralReef,,tech:5|human:2,4,coralTransplantation
 tourism,tourism,increase benefit for any adjacent different tile,differentTileBenefit,human:0.1|polution:1|money:1,,,,,shallowWater|land,human:3,2,tourism
 research,research,increase benefit for any adjacent same tile,sameTileBenefit,tech:1,,,,,shallowWater,tech:1|money:1,4,research
 restaurant,restaurant,"increase for each fish,seagrassHarvest action you have",food,money:1|human:0.1|polution:1,,,polution:3,,land,money:3|human:1,4,restaurant

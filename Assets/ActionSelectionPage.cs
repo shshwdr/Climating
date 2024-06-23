@@ -22,6 +22,12 @@ public class ActionSelectionPage : MenuBase
        confirmButton.onClick.AddListener(() =>
        {
            hexTile.startAction(actionInfo);
+           
+           //consume cost
+           ResourceManager.Instance.ConsumeResourceValue(actionInfo.actionCost);
+           //get immediate effect
+           ResourceManager.Instance.ProduceResourceValue(actionInfo.actionEffect);
+           ResourceManager.Instance.ProduceResourceValueIncrease(actionInfo.actionDurationEffect);
            Hide();
        });
    }
@@ -52,7 +58,7 @@ public class ActionSelectionPage : MenuBase
         actionInfo = info;
          actionName.text = info.actionName;
          actionDescription.text = info.actionDescription;
-         actionCost.text = Utils.StringifyDictionary( info.actionCost) +" time: "+info.actionTime;
+         actionCost.text = "cost: "+Utils.StringifyDictionary( info.actionCost) +" time: "+info.actionTime;
          effect.text ="effect: "+ Utils.StringifyDictionary( info.actionEffect);
          durationEffect.text = "durationEffect: "+Utils.StringifyDictionary( info.actionDurationEffect);
     }

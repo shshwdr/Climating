@@ -8,5 +8,6 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         CSVManager.Instance.Init();
+        ResourceManager.Instance.Init();
     }
 }

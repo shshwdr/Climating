@@ -9,20 +9,23 @@ public class HexTileController : MonoBehaviour
     public SpriteRenderer bkImage;
     
     public SpriteRenderer iconImage;
+    public SpriteRenderer actionIcon;
     private bool isExplored => hexTile.isExplored;
+    bool isActioned=> hexTile.action != null;
+    TileActionInfo actionInfo=> hexTile.action;
     public Color unExploredColor = Color.gray;
 
     public HexTile hexTile;
     // Start is called before the first frame update
 
 
-    public void Init(HexTile tile, Sprite icon, bool isExplored = false)
+    public void Init(HexTile tile, bool isExplored = false)
     {
          hexTile = tile;
        //  iconImage.sprite = icon;
          UpdateView();
     }
-    private void UpdateView()
+    public void UpdateView()
     {
 
         if (isExplored || isReadyToExplore())
@@ -31,6 +34,17 @@ public class HexTileController : MonoBehaviour
             bkImage.gameObject.SetActive(!isExplored);
             iconImage.gameObject.SetActive((isExplored));
             gameObject.SetActive(true);
+
+            if (isActioned)
+            {
+                actionIcon.sprite = Resources.Load<Sprite>("actionIcon/"+actionInfo.image);
+                actionIcon.gameObject.SetActive(true);
+            }
+            else
+            {
+                
+                actionIcon.gameObject.SetActive(false);
+            }
         }
         else
         {
@@ -69,9 +83,15 @@ public class HexTileController : MonoBehaviour
                 }
             }
         }
+        else if(isActioned)
+        {
+            //destroy previous action
+            
+        }
         else
         {
-            
+            //show action view
+            ActionSelectionPage.FindFirstInstance<ActionSelectionPage>().Show(hexTile);
         }
         
         //GetComponent<HexTileBase>().OnClick();

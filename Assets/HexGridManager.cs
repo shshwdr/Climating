@@ -13,7 +13,14 @@ public class HexTile
     public int Z { get; private set; }
     public bool isExplored = false;
     public bool isLand = false;
+    public TileActionInfo action = null;
+    public TileInfo info;
 
+    public void startAction(TileActionInfo actionInfo)
+    {
+        action = actionInfo;
+        HexGridManager.Instance.hexTileToControllerDict[this].UpdateView();
+    }
     public HexTile(int x, int y, int z)
     {
         if (x + y + z != 0)
@@ -98,8 +105,6 @@ public class HexGridManager : Singleton<HexGridManager>
     public float heightFactor = 1f;
     public float yOffsetFactor  = 1f;
     public float hexSize = 1;
-    List<string> shallowOceanTiles = new List<string>() { "CoralReef",/* "Estuary", "RedMangroves",*/ };
-    List<string> landTiles = new List<string>() { "SandBeach" };
 
     public Dictionary<HexTile, HexTileController> hexTileToControllerDict = new Dictionary<HexTile, HexTileController>();
 public Dictionary<int,HexTile> hexTileDict = new Dictionary<int,HexTile>();
@@ -147,25 +152,27 @@ public Dictionary<int,HexTile> hexTileDict = new Dictionary<int,HexTile>();
         {
             if (tile.isLand)
             {
-                var shallowOceanTile = landTiles.RandomItem();
+                var info = CSVManager.Instance.tileInfoListByType["land"].RandomItem();
+                var shallowOceanTile = info.tileId;
                 tile.isExplored = true;
+                tile.info = info;
                 GameObject hexPrefab = Resources.Load<GameObject>("hexTile/" + shallowOceanTile);
                 var hex = Instantiate(hexPrefab,
                     HexGrid.CubeToFlatTopWorldPosition(tile, hexSize, widthFactor, heightFactor,yOffsetFactor ),
                     Quaternion.identity);
-                hex.GetComponent<HexTileController>().Init(tile,
-                    Instantiate((Resources.Load<Sprite>("hexIcon/" + shallowOceanTile))), true);
+                hex.GetComponent<HexTileController>().Init(tile, true);
                 hexTileToControllerDict[tile] = hex.GetComponent<HexTileController>();
             }
             else
             {
-                var shallowOceanTile = shallowOceanTiles.RandomItem();
+                var info = CSVManager.Instance.tileInfoListByType["shallowWater"].RandomItem();
+                var shallowOceanTile = info.tileId;
+                tile.info = info;
                 GameObject hexPrefab = Resources.Load<GameObject>("hexTile/" + shallowOceanTile);
                 var hex = Instantiate(hexPrefab,
                     HexGrid.CubeToFlatTopWorldPosition(tile, hexSize, widthFactor, heightFactor,yOffsetFactor ),
                     Quaternion.identity);
-                hex.GetComponent<HexTileController>().Init(tile,
-                    Instantiate((Resources.Load<Sprite>("hexIcon/" + shallowOceanTile))));
+                hex.GetComponent<HexTileController>().Init(tile);
                 hexTileToControllerDict[tile] = hex.GetComponent<HexTileController>();
             }
         }

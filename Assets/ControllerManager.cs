@@ -54,7 +54,7 @@ public class ControllerManager : MonoBehaviour
             {
                 if (hit.collider.gameObject.tag == "HexTile")
                 {
-                    hit.collider.GetComponentInParent<HexTileController>().OnClick();
+                    hit.collider.GetComponent<HexTileController>().OnClick();
                     // If true, the mouse is over a hex tile, so ignore other input
                     return;
                 }

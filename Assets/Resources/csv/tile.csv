@@ -1,0 +1,8 @@
+﻿tileId,tileName,tileDescription,type,unlock
+coralReef,,,shallowWater,1
+seagrassBed,,,shallowWater,
+oysterReef,,,shallowWater,1
+redMangroves,,,shallowWater,
+shallowWater,,,shallowWater,1
+lagoon,,,shallowWater,
+sandyBeach,,,land,1

@@ -15,10 +15,18 @@ PrefabInstance:
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3319764604520106796, guid: 738f7dcf826949942bb59976c5112672, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3479717009097855913, guid: 738f7dcf826949942bb59976c5112672, type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: f16fa77321b99c44c835906d029e6ad1, type: 3}
+    - target: {fileID: 3479717009097855915, guid: 738f7dcf826949942bb59976c5112672, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3479717009185422774, guid: 738f7dcf826949942bb59976c5112672, type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.y
       value: 0.5
@@ -77,7 +85,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7234610878382028731, guid: 738f7dcf826949942bb59976c5112672, type: 3}
       propertyPath: m_Name
-      value: SandBeach
+      value: sandBeach
       objectReference: {fileID: 0}
     - target: {fileID: 8531999802904522518, guid: 738f7dcf826949942bb59976c5112672, type: 3}
       propertyPath: m_LocalScale.x

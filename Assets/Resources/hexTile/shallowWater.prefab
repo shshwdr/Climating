@@ -7,10 +7,26 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1042920514156527303, guid: a0bd659ba949b39428dc182824488181, type: 3}
+      propertyPath: m_Size.x
+      value: 7.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1042920514156527303, guid: a0bd659ba949b39428dc182824488181, type: 3}
+      propertyPath: m_Size.y
+      value: 4.31
+      objectReference: {fileID: 0}
+    - target: {fileID: 1042920514156527303, guid: a0bd659ba949b39428dc182824488181, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f16fa77321b99c44c835906d029e6ad1, type: 3}
+    - target: {fileID: 1042920514156527303, guid: a0bd659ba949b39428dc182824488181, type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6948887516543103504, guid: a0bd659ba949b39428dc182824488181, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: cfceff1031a6b8a4a8242ccc8efb6ce0, type: 3}
+      objectReference: {fileID: 21300000, guid: 6651200b2c99f7349ae1ef78a189cbf7, type: 3}
     - target: {fileID: 6948887516543103504, guid: a0bd659ba949b39428dc182824488181, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
@@ -61,7 +77,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7234610878382028731, guid: a0bd659ba949b39428dc182824488181, type: 3}
       propertyPath: m_Name
-      value: RedMangroves
+      value: shallowWater
+      objectReference: {fileID: 0}
+    - target: {fileID: 8531999802904522518, guid: a0bd659ba949b39428dc182824488181, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8531999802904522518, guid: a0bd659ba949b39428dc182824488181, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8531999802904522518, guid: a0bd659ba949b39428dc182824488181, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a0bd659ba949b39428dc182824488181, type: 3}

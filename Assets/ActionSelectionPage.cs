@@ -13,7 +13,11 @@ public class ActionSelectionPage : MenuBase
    public TMP_Text actionCost;
    public TMP_Text effect;
    public TMP_Text durationEffect;
+   public TMP_Text durationCurrentEffect;
    public Button confirmButton;
+   public Button removeButton;
+
+   private bool isRemoving = false;
 
    private HexTile hexTile;
    private TileActionInfo actionInfo;
@@ -25,9 +29,12 @@ public class ActionSelectionPage : MenuBase
            
            //consume cost
            ResourceManager.Instance.ConsumeResourceValue(actionInfo.actionCost);
-           //get immediate effect
-           ResourceManager.Instance.ProduceResourceValue(actionInfo.actionEffect);
-           ResourceManager.Instance.ProduceResourceValueIncrease(actionInfo.actionDurationEffect);
+           Hide();
+       });
+       
+       removeButton.onClick.AddListener(() =>
+       {
+           hexTile.startStopAction(actionInfo);
            Hide();
        });
    }
@@ -36,21 +43,46 @@ public class ActionSelectionPage : MenuBase
     {
         this.hexTile = hexTile;
         Show();
-        var allAvailableActions = hexTile.info.tileActionInfoList;
-        int i = 0;
-        for(i = 0;i<allAvailableActions.Count;i++)
-        //foreach (var actionButton in selectionButtonParent.GetComponentsInChildren<ActionButton>(true))
+        if (hexTile.action!=null)
         {
-            selectionButtonParent.GetChild(i).gameObject.SetActive(true);
-            selectionButtonParent.GetChild(i).GetComponent<ActionButton>().Init(allAvailableActions[i]);
+            isRemoving = true;
+            for (int i = 0; i < selectionButtonParent.childCount; i++)
+            {
+                selectionButtonParent.GetChild(i).gameObject.SetActive(false);
+            }
+            Show(hexTile.action);
         }
-
-        for (; i < selectionButtonParent.childCount; i++)
+        else
         {
-            selectionButtonParent.GetChild(i).gameObject.SetActive(false);
+            isRemoving = false;
+            var allAvailableActions = hexTile.info.tileActionInfoList;
+            int i = 0;
+            for(i = 0;i<allAvailableActions.Count;i++)
+                //foreach (var actionButton in selectionButtonParent.GetComponentsInChildren<ActionButton>(true))
+            {
+                selectionButtonParent.GetChild(i).gameObject.SetActive(true);
+                selectionButtonParent.GetChild(i).GetComponent<ActionButton>().Init(allAvailableActions[i]);
+            }
+
+            for (; i < selectionButtonParent.childCount; i++)
+            {
+                selectionButtonParent.GetChild(i).gameObject.SetActive(false);
+            }
+            Show(allAvailableActions[0]);
         }
         
-        Show(allAvailableActions[0]);
+        
+        if (isRemoving)
+        {
+            removeButton.gameObject.SetActive(true);
+            confirmButton.gameObject.SetActive(false);
+        }
+        else
+        {
+            removeButton.gameObject.SetActive(false);
+            confirmButton.gameObject.SetActive(true);
+            confirmButton.interactable =  ResourceManager.Instance.CanConsumeResourceValue(actionInfo.actionCost);
+        }
     }
 
     public void Show(TileActionInfo info)
@@ -58,8 +90,16 @@ public class ActionSelectionPage : MenuBase
         actionInfo = info;
          actionName.text = info.actionName;
          actionDescription.text = info.actionDescription;
-         actionCost.text = "cost: "+Utils.StringifyDictionary( info.actionCost) +" time: "+info.actionTime;
+         if (isRemoving)
+         {
+             actionCost.text = "time: 2 day";
+         }
+         else
+         {
+             actionCost.text = "cost: "+Utils.StringifyDictionary( info.actionCost) +" time: "+info.actionTime+" day";
+         }
          effect.text ="effect: "+ Utils.StringifyDictionary( info.actionEffect);
-         durationEffect.text = "durationEffect: "+Utils.StringifyDictionary( info.actionDurationEffect);
+         durationEffect.text = "duration Effect: "+Utils.StringifyDictionary( info.actionDurationEffect);
+         durationCurrentEffect.text = "current duration Effect multiplier: "+ this.hexTile.effectMultiplier(info);
     }
 }

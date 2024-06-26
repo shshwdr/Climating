@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,14 +14,89 @@ public class HexTile
     public int Z { get; private set; }
     public bool isExplored = false;
     public bool isLand = false;
+    public bool isExploring = false;
+    public bool isActioning = false;
+    public bool isRemovingAction = false;
     public TileActionInfo action = null;
+    public bool actionWorks => action != null&& !isActioning && !isRemovingAction;
     public TileInfo info;
-
+    public int exploreCost;
+    public int exploreTime;
     public void startAction(TileActionInfo actionInfo)
     {
         action = actionInfo;
+        isActioning = true;
+        exploreTime = actionInfo.actionTime;
         HexGridManager.Instance.hexTileToControllerDict[this].UpdateView();
     }
+    public void startStopAction(TileActionInfo actionInfo)
+    {
+        isRemovingAction = true;
+        exploreTime = 2;
+        
+        HexGridManager.Instance.hexTileToControllerDict[this].UpdateView();
+        ResourceManager.Instance.UpdateIncreaseResourceValues();
+    }
+
+    public int effectMultiplier()
+    {
+        return effectMultiplier(action);
+    }
+
+    public int effectMultiplier(TileActionInfo action)
+    {
+        int start = 1;
+        switch (action.adjacentAffectType)
+        {
+            case "sameTileBenefit":
+                foreach (var neighbor in HexGridManager.Instance.GetNeighbors(this))
+                {
+                    if (neighbor.isExplored && neighbor.info.tileId == info.tileId)
+                    {
+                        start++;
+                    }
+                }
+
+                return start;
+            case "differentTileBenefit":
+                
+                foreach (var neighbor in HexGridManager.Instance.GetNeighbors(this))
+                {
+                    if (neighbor.isExplored && neighbor.info.tileId != info.tileId)
+                    {
+                        start++;
+                    }
+                }
+
+                return start;
+            case "food":
+                foreach (var neighbor in HexGridManager.Instance.hexTileDict.Values)
+                {
+                    if (neighbor.isExplored && neighbor.action!=null && !neighbor.isActioning  && neighbor.action.isFood)
+                    {
+                        start++;
+                    }
+                }
+
+                return start;
+            case "accessory":
+                foreach (var neighbor in HexGridManager.Instance.hexTileDict.Values)
+                {
+                    if (neighbor.isExplored && neighbor.action!=null && !neighbor.isActioning  && neighbor.action.isAccessory)
+                    {
+                        start++;
+                    }
+                }
+
+                return start;
+            
+                
+        }
+        return 1;
+        
+    }
+    
+    
     public HexTile(int x, int y, int z)
     {
         if (x + y + z != 0)
@@ -137,7 +213,7 @@ public Dictionary<int,HexTile> hexTileDict = new Dictionary<int,HexTile>();
             {
                 var y = -x - z;
                 var tile = new HexTile(x, y, z);
-
+                tile.exploreCost = math.max(1, (math.abs(x)+math.abs(z))/2);
                 hexTileToControllerDict[tile] = null;
                 hexTileDict[tile.GetHashCode()] = tile;
                 if (x == 0 && z == 0)

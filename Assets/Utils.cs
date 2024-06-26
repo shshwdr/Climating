@@ -8,7 +8,7 @@ public class Utils : MonoBehaviour
     public static string StringifyDictionary<T>(Dictionary<string, T> dict)
     {
         StringBuilder sb = new StringBuilder();
-        sb.Append("{");
+        //sb.Append("{");
 
         bool first = true;
         foreach (var kvp in dict)
@@ -19,12 +19,12 @@ public class Utils : MonoBehaviour
             }
             first = false;
 
-            sb.Append("\"").Append(kvp.Key).Append("\":");
+            sb.Append(kvp.Key);
 
             AppendValue(sb, kvp.Value);
         }
 
-        sb.Append("}");
+        //sb.Append("}");
         return sb.ToString();
     }
 
@@ -32,7 +32,7 @@ public class Utils : MonoBehaviour
     {
         if (value is string)
         {
-            sb.Append("\"").Append(value).Append("\"");
+            sb.Append(value);
         }
         else if (value is Dictionary<string, object> dict)
         {
@@ -59,7 +59,7 @@ public class Utils : MonoBehaviour
     public static string StringifyList<T>(List<T> list)
     {
         StringBuilder sb = new StringBuilder();
-        sb.Append("[");
+        //sb.Append("");
 
         bool first = true;
         foreach (var item in list)
@@ -73,7 +73,22 @@ public class Utils : MonoBehaviour
             AppendValue(sb, item);
         }
 
-        sb.Append("]");
+        //sb.Append("]");
         return sb.ToString();
+    }
+    
+    
+   public static string formatFloat(float myFloat)
+    {
+        if (myFloat % 1 == 0)
+        {
+            // 小数部分为零，只显示整数部分
+            return myFloat.ToString("F0");
+        }
+        else
+        {
+            // 显示一位小数
+            return myFloat.ToString("F1");
+        }
     }
 }

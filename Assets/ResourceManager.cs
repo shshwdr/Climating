@@ -10,6 +10,10 @@ public class Resource
     public float Value { get; private set; }
     public float IncreasePerSecond { get; private set; }
 
+    public void clearIncreaseValues()
+    {
+        IncreasePerSecond = 0;
+    }
     public Resource(string name, float initialValue, float increasePerSecond)
     {
         Name = name;
@@ -53,16 +57,34 @@ public List<Resource> Resources => resources;
         AddResource((new Resource("polution", 0, 0)));
     }
 
+    public float updateTime = 3;
     private IEnumerator UpdateResourceValues()
     {
         while (true)
         {
-            yield return new WaitForSeconds(1.0f);
-            //float deltaTime = Time.deltaTime;
+            yield return new WaitForSeconds(updateTime);
             foreach (var resource in resources)
             {
-                resource.IncreaseValueByTime(1);
-                Debug.Log($"{resource.Name}: {resource.Value}");
+                 resource.IncreaseValueByTime(1);
+
+            }
+        }
+    }
+
+    public void UpdateIncreaseResourceValues()
+    {
+        foreach (var resource in resources)
+        {
+            resource.clearIncreaseValues();
+        }
+        foreach (var tile in HexGridManager.Instance.hexTileDict.Values)
+        {
+            if (tile.actionWorks)
+            {
+                var multiplier = tile.effectMultiplier();
+                var increase = tile.action.actionDurationEffect;
+                ProduceResourceValueIncreaseWithMultiplier(increase, multiplier);
+
             }
         }
     }
@@ -104,12 +126,26 @@ public List<Resource> Resources => resources;
             ProduceResourceValue(item.Key, item.Value);
         }
     }
+    public void ProduceResourceValueWithMultiplier(Dictionary<string ,float> value, int multiplier)
+    {
+        foreach (var item in value)
+        {
+            ProduceResourceValue(item.Key, item.Value * multiplier);
+        }
+    }
     
     public void ProduceResourceValueIncrease(Dictionary<string ,float> value)
     {
         foreach (var item in value)
         {
             ProduceResourceValueIncrease(item.Key, item.Value);
+        }
+    }
+    public void ProduceResourceValueIncreaseWithMultiplier(Dictionary<string ,float> value, int multiplier)
+    {
+        foreach (var item in value)
+        {
+            ProduceResourceValueIncrease(item.Key, item.Value*multiplier);
         }
     }
     public void ProduceResourceValue(string name, float amount)
@@ -127,5 +163,31 @@ public List<Resource> Resources => resources;
         {
             resource.ChangeIncreasePerSecond(amount);
         }
+    }
+
+    public bool CanConsumeResourceValue(Dictionary<string, float> value)
+    {
+        foreach (var item in value)
+        {
+            Resource resource = GetResource(item.Key);
+            if (resource != null)
+            {
+                if (resource.Value < item.Value)
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    public bool CanConsumeResourceValue(string name, float amount)
+    {
+        return CanConsumeResourceValue(new Dictionary<string, float>() { { name, amount } });
     }
 }

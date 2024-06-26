@@ -16,8 +16,11 @@ public class ResourceCell : MonoBehaviour
         EventPool.OptIn("updateResource", UpdateValue);
     }
 
+
     void UpdateValue()
     {
-        resourceName.text =resourceId+": "+ ResourceManager.Instance.GetResource(resourceId).Value.ToString() + " +"+ ResourceManager.Instance.GetResource(resourceId).IncreasePerSecond.ToString()+"/sec";
+        //float format to string
+        
+        resourceName.text =resourceId+": "+Utils. formatFloat(ResourceManager.Instance.GetResource(resourceId).Value) + " +"+ Utils. formatFloat(ResourceManager.Instance.GetResource(resourceId).IncreasePerSecond)+"/day";
     }
 }

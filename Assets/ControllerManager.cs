@@ -11,7 +11,7 @@ public class ControllerManager : MonoBehaviour
     public float panSpeed = 20.0f; // Speed of panning
 
     private Vector3 dragOrigin;
-
+    private HexTileController currentSelectedTile;
     void Update()
     {
         
@@ -54,7 +54,35 @@ public class ControllerManager : MonoBehaviour
             {
                 if (hit.collider.gameObject.tag == "HexTile")
                 {
-                    hit.collider.GetComponent<HexTileController>().OnClick();
+                    var currentHitTile = hit.collider.GetComponent<HexTileController>();
+                    if (currentHitTile.isExplored)
+                    {
+                        if (currentSelectedTile)
+                        {
+                            currentSelectedTile.HidePreExploreView();
+                            currentSelectedTile = null;
+                        }
+                        currentHitTile.OnClick(true);
+                    }
+                    else
+                    {
+                        
+                        if (currentSelectedTile == currentHitTile)
+                        {
+                            currentSelectedTile.OnClick(true);
+                            currentSelectedTile.HidePreExploreView();
+                            currentSelectedTile = null;
+                        }
+                        else
+                        {
+                            if (currentSelectedTile)
+                            {
+                                currentSelectedTile.HidePreExploreView();
+                            }
+                            currentSelectedTile = currentHitTile;
+                            currentSelectedTile.ShowPreExploreView();
+                        }
+                    }
                     // If true, the mouse is over a hex tile, so ignore other input
                     return;
                 }

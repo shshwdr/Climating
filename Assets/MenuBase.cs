@@ -33,9 +33,12 @@ public class MenuBase : MonoBehaviour
     virtual public void Show()
     {
         menu.SetActive(true);
+        GameLoopManager.Instance.UIPauseGame(true);
     }
     virtual public void Hide()
     {
         menu.SetActive(false);
+        GameLoopManager.Instance.UIPauseGame(false);
+        
     }
 }

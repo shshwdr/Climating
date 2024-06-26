@@ -1,0 +1,2 @@
+﻿eventId,eventName,eventDescription,duration,repeat,costWhenTimeFinish
+tax,tax,Cost 1 money per 10 day,10,1,money:1

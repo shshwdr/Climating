@@ -41,6 +41,11 @@ public class Resource
     {
         Value -= amount;
         EventPool.Trigger("updateResource");
+
+        if (Name == "money" && Value < 0)
+        {
+            GameManager.Instance.Lose();
+        }
     }
 }
 public class ResourceManager : Singleton<ResourceManager>

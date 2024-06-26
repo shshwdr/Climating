@@ -20,10 +20,13 @@ public class MenuBase : MonoBehaviour
     protected virtual void Start()
     {
         Hide();
-        closeButton.onClick.AddListener(() =>
+        if (closeButton)
         {
-            Hide();
-        });
+            closeButton.onClick.AddListener(() =>
+            {
+                Hide();
+            });
+        }
     }
 
     virtual public void Init()

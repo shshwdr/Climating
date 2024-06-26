@@ -33,6 +33,18 @@ public string adjacentAffectType;
 public string image;
 }
 
+public class EventInfo
+{
+    public string eventId;
+    public string eventName;
+    public string eventDescription;
+    public Dictionary<string,float> costWhenTimeFinish;
+    public Dictionary<string,float> eventEffect;
+    public int duration;
+    public bool repeat;
+    //eventId	duration	repeat	costWhenTimeFinish
+
+}
 
 
 public class CSVManager : Singleton<CSVManager>
@@ -40,6 +52,7 @@ public class CSVManager : Singleton<CSVManager>
     public Dictionary<string,TileInfo > tileInfoDict = new Dictionary<string,TileInfo>();
     public Dictionary<string,TileActionInfo > tileActionInfoDict = new Dictionary<string,TileActionInfo>();
     public Dictionary<string,List<TileInfo>> tileInfoListByType = new Dictionary<string,List<TileInfo>>();
+    public Dictionary<string,EventInfo > eventInfoDict = new Dictionary<string,EventInfo>();
 
     // Start is called before the first frame update
     public void Init()
@@ -62,6 +75,12 @@ public class CSVManager : Singleton<CSVManager>
                 tileInfoListByType[tileInfo.type].Add(tileInfo);
                 tileInfo.tileActionInfoList = tileActionInfoDict.Values.Where(x=>x.tileType.Contains(tileInfo.type) || x.tile.Contains(tileInfo.tileId)).ToList();
             }
+        }
+        
+        var eventInfos =  CsvUtil.LoadObjects<EventInfo>("event");
+        foreach (var eventInfo in eventInfos)
+        {
+            eventInfoDict[eventInfo.eventId] = eventInfo;
         }
         
     }

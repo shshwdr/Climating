@@ -13,6 +13,8 @@ public class HexTile
     public int Y { get; private set; }
     public int Z { get; private set; }
     public bool isExplored = false;
+
+    public bool isActive => isExplored;
     public bool isLand = false;
     public bool isExploring = false;
     public bool isActioning = false;
@@ -22,6 +24,49 @@ public class HexTile
     public TileInfo info;
     public int exploreCost;
     public int exploreTime;
+
+    public string disableActionReason(TileActionInfo actionInfo)
+    {
+        switch (actionInfo.startCheck)
+        {
+            case "noActionAround":
+                foreach (var neighbor in HexGridManager.Instance.GetNeighbors(this))
+                {
+                    if (neighbor.action!=null)
+                    {
+                        return $"cannot do {actionInfo.actionName} around actioned tile";
+                    }
+                }
+                break;
+            case "sameTileAround":
+                bool hasAction = false;
+                foreach (var neighbor in HexGridManager.Instance.GetNeighbors(this))
+                {
+                    if (neighbor.isActive && neighbor.info.tileId == info.tileId)
+                    {
+                        hasAction = true;
+                        break;
+                    }
+                }
+
+                if (!hasAction)
+                {
+                    return  $"should have at least one {info.tileId} around to do {actionInfo.actionName}";
+                }
+
+                break;
+        }
+        
+        foreach (var neighbor in HexGridManager.Instance.GetNeighbors(this))
+        {
+            if (neighbor.action!=null && neighbor.action.startCheck == "noActionAround")
+            {
+                return $"cannot do action around {neighbor.action.actionName}";
+            }
+        }
+
+        return null;
+    }
     public void startAction(TileActionInfo actionInfo)
     {
         action = actionInfo;

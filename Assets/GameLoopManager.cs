@@ -10,11 +10,13 @@ public class GameLoopManager : Singleton<GameLoopManager>
     public void UIPauseGame(bool pause)
     {
         UIPause = pause;
-        
+        UpdatePause();
+
     }
     public void PlayerControlPauseGame(bool pause)
     {
         PlayerControlPause = pause;
+        UpdatePause();
         
     }
 

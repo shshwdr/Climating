@@ -14,6 +14,7 @@ public class ActionSelectionPage : MenuBase
    public TMP_Text effect;
    public TMP_Text durationEffect;
    public TMP_Text durationCurrentEffect;
+   public TMP_Text disableReason;
    public Button confirmButton;
    public Button removeButton;
 
@@ -71,22 +72,12 @@ public class ActionSelectionPage : MenuBase
             Show(allAvailableActions[0]);
         }
         
-        
-        if (isRemoving)
-        {
-            removeButton.gameObject.SetActive(true);
-            confirmButton.gameObject.SetActive(false);
-        }
-        else
-        {
-            removeButton.gameObject.SetActive(false);
-            confirmButton.gameObject.SetActive(true);
-            confirmButton.interactable =  ResourceManager.Instance.CanConsumeResourceValue(actionInfo.actionCost);
-        }
     }
 
     public void Show(TileActionInfo info)
     {
+        
+        disableReason.gameObject.SetActive(false);
         actionInfo = info;
          actionName.text = info.actionName;
          actionDescription.text = info.actionDescription;
@@ -101,5 +92,33 @@ public class ActionSelectionPage : MenuBase
          effect.text ="effect: "+ Utils.StringifyDictionary( info.actionEffect);
          durationEffect.text = "duration Effect: "+Utils.StringifyDictionary( info.actionDurationEffect);
          durationCurrentEffect.text = "current duration Effect multiplier: "+ this.hexTile.effectMultiplier(info);
+         
+         
+        
+         if (isRemoving)
+         {
+             removeButton.gameObject.SetActive(true);
+             confirmButton.gameObject.SetActive(false);
+         }
+         else
+         {
+             removeButton.gameObject.SetActive(false);
+
+             var reason = hexTile.disableActionReason(actionInfo);
+             if (reason == null)
+             {
+                
+                 confirmButton.gameObject.SetActive(true);
+                 disableReason.gameObject.SetActive(false);
+                 confirmButton.interactable =  ResourceManager.Instance.CanConsumeResourceValue(actionInfo.actionCost);
+             }
+             else
+             {
+                 disableReason.gameObject.SetActive(true);
+                 disableReason.text = reason;
+                 confirmButton.gameObject.SetActive(false);
+             }
+            
+         }
     }
 }

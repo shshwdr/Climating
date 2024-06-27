@@ -17,6 +17,7 @@ public class MenuBase : MonoBehaviour
         }
         return instance;
     }
+    
     protected virtual void Start()
     {
         Hide();

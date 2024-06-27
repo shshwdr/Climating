@@ -12,7 +12,6 @@ public class TileInfo
     public string tileDescription;
     public string type;
     public bool unlock;
-    
     public List<TileActionInfo> tileActionInfoList; 
 }
 
@@ -31,6 +30,7 @@ public Dictionary<string,float> actionCost;
 public int actionTime;
 public string adjacentAffectType;
 public string image;
+public string startCheck;
 }
 
 public class EventInfo

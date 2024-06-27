@@ -99,6 +99,17 @@ public class HexTileController : MonoBehaviour
         UpdateView();
         
     }
+
+    void FinishExploring()
+    {
+        
+        foreach (var neighbor in HexGridManager.Instance.GetNeighbors(hexTile))
+        {
+            HexGridManager.Instance.hexTileToControllerDict[neighbor].UpdateView();
+        }
+                
+        ResourceManager.Instance.UpdateIncreaseResourceValues();
+    }
     bool isReadyToExplore()
     {
         bool readyToExplore = false;
@@ -131,10 +142,7 @@ public class HexTileController : MonoBehaviour
                 hexTile.isExploring = false;
                 progressBar.gameObject.SetActive(false);
                 UpdateView();
-                foreach (var neighbor in HexGridManager.Instance.GetNeighbors(hexTile))
-                {
-                    HexGridManager.Instance.hexTileToControllerDict[neighbor].UpdateView();
-                }
+                FinishExploring();
             }
         }
         

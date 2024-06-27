@@ -261,10 +261,15 @@ public Dictionary<int,HexTile> hexTileDict = new Dictionary<int,HexTile>();
                 tile.exploreCost = math.max(1, (math.abs(x)+math.abs(z))/2);
                 hexTileToControllerDict[tile] = null;
                 hexTileDict[tile.GetHashCode()] = tile;
+                if (math.abs(x)+math.abs(z)<=1 && z>=0)
+                {
+                    tile.isLand = true;
+                }
+
                 if (x == 0 && z == 0)
                 {
+                    
                     tile.isExplored = true;
-                    tile.isLand = true;
                 }
             }
         }
@@ -275,13 +280,12 @@ public Dictionary<int,HexTile> hexTileDict = new Dictionary<int,HexTile>();
             {
                 var info = CSVManager.Instance.tileInfoListByType["land"].RandomItem();
                 var shallowOceanTile = info.tileId;
-                tile.isExplored = true;
                 tile.info = info;
                 GameObject hexPrefab = Resources.Load<GameObject>("hexTile/" + shallowOceanTile);
                 var hex = Instantiate(hexPrefab,
                     HexGrid.CubeToFlatTopWorldPosition(tile, hexSize, widthFactor, heightFactor,yOffsetFactor ),
                     Quaternion.identity);
-                hex.GetComponent<HexTileController>().Init(tile, true);
+                hex.GetComponent<HexTileController>().Init(tile,  tile.isExplored );
                 hexTileToControllerDict[tile] = hex.GetComponent<HexTileController>();
             }
             else
@@ -293,7 +297,7 @@ public Dictionary<int,HexTile> hexTileDict = new Dictionary<int,HexTile>();
                 var hex = Instantiate(hexPrefab,
                     HexGrid.CubeToFlatTopWorldPosition(tile, hexSize, widthFactor, heightFactor,yOffsetFactor ),
                     Quaternion.identity);
-                hex.GetComponent<HexTileController>().Init(tile);
+                hex.GetComponent<HexTileController>().Init(tile,  tile.isExplored );
                 hexTileToControllerDict[tile] = hex.GetComponent<HexTileController>();
             }
         }

@@ -7,6 +7,7 @@ public class GameLoopManager : Singleton<GameLoopManager>
     bool UIPause = false;
     bool PlayerControlPause = false;
 
+    private float speed = 1;
     public void UIPauseGame(bool pause)
     {
         UIPause = pause;
@@ -20,6 +21,18 @@ public class GameLoopManager : Singleton<GameLoopManager>
         
     }
 
+    public void ChangeSpeed(float speed)
+    {
+         this.speed = speed;
+         if (UIPause || PlayerControlPause)
+         {
+             
+         }
+         else
+         {
+             Time.timeScale = speed;
+         }
+    }
     void UpdatePause()
     {
         if (UIPause || PlayerControlPause)
@@ -28,7 +41,7 @@ public class GameLoopManager : Singleton<GameLoopManager>
         }
         else
         {
-            Time.timeScale = 1;
+            Time.timeScale = speed;
         }
     }
 }

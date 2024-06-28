@@ -1,3 +1,3 @@
-﻿eventId,eventName,eventDescription,eventDetailDescription,duration,repeat,costWhenTimeFinish,costToFinishEvent,happenRequirement,happenChance,effectDuration
-tax,tax,- 1 money / 10 day,,10,1,money:1,,,,
-waterPolution,,not able to explore,,20,0,,tech:1|money:1,polution_larger:0,100,exploreDisable:1
+﻿eventId,eventName,eventDescription,eventDetailDescription,duration,repeat,costWhenTimeFinish,happenRequirement,happenChance,durationEffect,costToFinishEvent1,nameToFinishEvent1,costToFinishEvent2,nameToFinishEvent2,costToFinishEvent3,nameToFinishEvent3
+tax,tax,- 1 money / 20 day,You need to pay to alive your people. Nothing you can do. Only death and taxes are inevitable,20,1,money:1,,,,,,,,,
+Coral Bleaching,Coral Bleaching,coral production -10%,"Due to rising sea temperatures or pollution, coral bleaching and death occur.",20,0,polution:5,polution_larger:0,100,production_coral:-10,money:5,Install cooling systems to Reduce Temperature,tech:5,Plant Heat-Resistant Corals,human:5,Clean Up Pollution

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,6 +27,9 @@ public class HexTileController : MonoBehaviour
     public void Init(HexTile tile, bool isExplored = false)
     {
          hexTile = tile;
+         var candidates = Resources.LoadAll<Sprite>("hexIconGroup/" + tile.info.type).ToList();
+         bkImage.sprite = candidates.RandomItem();
+         
        //  iconImage.sprite = icon;
          UpdateView();
          HidePreViews();
@@ -54,11 +58,12 @@ public class HexTileController : MonoBehaviour
     
     public void UpdateView()
     {
+        
 
         if (isExplored || isReadyToExplore())
         {
             bkImage.color = isExplored ? Color.white : unExploredColor;
-            bkImage.gameObject.SetActive(!isExplored);
+           // bkImage.gameObject.SetActive(!isExplored);
             iconImage.gameObject.SetActive((isExplored));
             gameObject.SetActive(true);
 

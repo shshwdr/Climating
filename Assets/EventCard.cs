@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class EventCard : MonoBehaviour
 {
@@ -10,10 +11,15 @@ public class EventCard : MonoBehaviour
     public ProgressBar progressBar;
 
     private EventInfoData data;
+
+    public Button button;
     // Start is called before the first frame update
     void Start()
     {
-        
+        button.onClick.AddListener(() =>
+        {
+            EventPage.FindFirstInstance<EventPage>().Show(data);
+        });
     }
 
     // Update is called once per frame

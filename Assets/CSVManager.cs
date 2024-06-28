@@ -38,10 +38,22 @@ public class EventInfo
     public string eventId;
     public string eventName;
     public string eventDescription;
+    public string eventDetailDescription;
     public Dictionary<string,float> costWhenTimeFinish;
-    public Dictionary<string,float> eventEffect;
+    public Dictionary<string,float> durationEffect;
     public int duration;
     public bool repeat;
+    public Dictionary<string,float> happenRequirement;
+    public float happenChance;
+    public Dictionary<string, float> costToFinishEvent1;
+    public string nameToFinishEvent1;
+    public Dictionary<string, float> costToFinishEvent2;
+    public string nameToFinishEvent2;
+    public Dictionary<string, float> costToFinishEvent3;
+    public string nameToFinishEvent3;
+    public List<Dictionary<string, float>> costToFinishEvents;
+    public List<string> nameToFinishEvents;
+
     //eventId	duration	repeat	costWhenTimeFinish
 
 }
@@ -81,6 +93,21 @@ public class CSVManager : Singleton<CSVManager>
         foreach (var eventInfo in eventInfos)
         {
             eventInfoDict[eventInfo.eventId] = eventInfo;
+            eventInfo.costToFinishEvents = new List<Dictionary<string, float>>();
+            eventInfo.nameToFinishEvents = new List<string>();
+            if(eventInfo.costToFinishEvent1!=null){
+                eventInfo.costToFinishEvents.Add(eventInfo.costToFinishEvent1);
+                eventInfo.nameToFinishEvents.Add(eventInfo.nameToFinishEvent1);
+            }
+            if(eventInfo.costToFinishEvent2!=null){
+                eventInfo.costToFinishEvents.Add(eventInfo.costToFinishEvent2);
+                eventInfo.nameToFinishEvents.Add(eventInfo.nameToFinishEvent2);
+                
+            }
+            if(eventInfo.costToFinishEvent3!=null){
+                eventInfo.costToFinishEvents.Add(eventInfo.costToFinishEvent3);
+                eventInfo.nameToFinishEvents.Add(eventInfo.nameToFinishEvent3);
+            }
         }
         
     }

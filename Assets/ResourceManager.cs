@@ -190,6 +190,19 @@ public List<Resource> Resources => resources;
 
         return true;
     }
+    
+    public float GetResourceValue(string name)
+    {
+        Resource resource = GetResource(name);
+        if (resource != null)
+        {
+            return resource.Value;
+        }
+        else
+        {
+            return 0;
+        }
+    }
 
     public bool CanConsumeResourceValue(string name, float amount)
     {

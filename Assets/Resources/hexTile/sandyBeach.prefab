@@ -12,6 +12,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: b7efc37a6378c6b41bac376bdd16c4f0, type: 3}
     - target: {fileID: 1042920514156527303, guid: 738f7dcf826949942bb59976c5112672, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1042920514156527303, guid: 738f7dcf826949942bb59976c5112672, type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
@@ -85,7 +89,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7234610878382028731, guid: 738f7dcf826949942bb59976c5112672, type: 3}
       propertyPath: m_Name
-      value: sandBeach
+      value: sandyBeach
       objectReference: {fileID: 0}
     - target: {fileID: 8531999802904522518, guid: 738f7dcf826949942bb59976c5112672, type: 3}
       propertyPath: m_LocalScale.x

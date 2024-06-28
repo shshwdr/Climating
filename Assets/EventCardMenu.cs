@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Pool;
 using UnityEngine;
 
 public class EventCardMenu : MonoBehaviour
@@ -9,6 +10,7 @@ public class EventCardMenu : MonoBehaviour
     void Start()
     {
         UpdateMenu();
+        EventPool.OptIn("updateEvent",UpdateMenu);
     }
 
     // Update is called once per frame

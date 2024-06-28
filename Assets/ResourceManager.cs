@@ -56,9 +56,9 @@ public List<Resource> Resources => resources;
     {
         // 开始更新资源值的协程
         StartCoroutine(UpdateResourceValues());
-        AddResource((new Resource("money", 10, 0)));
-        AddResource((new Resource("tech", 5, 0)));
-        AddResource((new Resource("human", 5, 0)));
+        AddResource((new Resource("money", 50, 0)));
+        AddResource((new Resource("tech", 0, 0)));
+        AddResource((new Resource("human", 40, 1)));
         AddResource((new Resource("polution", 0, 0)));
     }
 

@@ -16,12 +16,18 @@ public class EventCardManager : Singleton<EventCardManager>
     private float checkEventTimer = 0;
 
     private float checkEventTime = 1;
+
     // Start is called before the first frame update
     public void Init()
     {
-        var taxData = new EventInfoData(){eventInfo = CSVManager.Instance.eventInfoDict["tax"],timer = 0};
+        var taxData = new EventInfoData() { eventInfo = CSVManager.Instance.eventInfoDict["tax"], timer = 0 };
         currentEventList.Add(taxData);
-        
+    }
+
+    public void DealEvent(EventInfoData eventData)
+    {
+        currentEventList.Remove(eventData);
+        EventPool.Trigger("updateEvent");
     }
 
     // Update is called once per frame
@@ -29,7 +35,7 @@ public class EventCardManager : Singleton<EventCardManager>
     {
         for (int i = currentEventList.Count - 1; i >= 0; i--)
         {
-            var eventt =  currentEventList[i];
+            var eventt = currentEventList[i];
             eventt.timer += Time.deltaTime;
             if (eventt.timer >= eventt.eventInfo.duration)
             {
@@ -37,15 +43,16 @@ public class EventCardManager : Singleton<EventCardManager>
                 ResourceManager.Instance.ConsumeResourceValue(eventt.eventInfo.costWhenTimeFinish);
                 if (eventt.eventInfo.repeat)
                 {
-                    
                 }
                 else
                 {
                     currentEventList.RemoveAt(i);
+                    
+                    EventPool.Trigger("updateEvent");
                 }
             }
         }
-        
+
         checkEventTimer += Time.deltaTime;
         if (checkEventTimer >= checkEventTime)
         {
@@ -55,10 +62,14 @@ public class EventCardManager : Singleton<EventCardManager>
             foreach (var info in CSVManager.Instance.eventInfoDict.Values)
             {
                 bool isValid = true;
-                if (info.happenRequirement == null || info.happenRequirement.Count == 0)
+                if (info.eventId == "tax")
                 {
                     continue;
                 }
+                // if (info.happenRequirement == null || info.happenRequirement.Count == 0)
+                // {
+                //     continue;
+                // }
 
                 bool hasEvent = false;
                 foreach (var currentEvent in currentEventList)
@@ -74,24 +85,24 @@ public class EventCardManager : Singleton<EventCardManager>
                 {
                     continue;
                 }
-                
+
                 foreach (var pair in info.happenRequirement)
                 {
-                    switch (pair.Key)
+                    var keys = pair.Key.Split(('_'));
+                    switch (keys[0])
                     {
-                        case "polution_larger":
-                            if (ResourceManager.Instance.GetResourceValue("polution") <= pair.Value)
-                            {
-                                isValid = false;
-                            }
+                        case "resourceCount":
+                            // if (ResourceManager.Instance.GetResourceValue("polution") <= pair.Value)
+                            // {
+                            //     isValid = false;
+                            // }
                             break;
-                        
                     }
                 }
 
                 if (isValid)
                 {
-                    newEventCandidateList.Add( info);
+                    newEventCandidateList.Add(info);
                     probability.Add(info.happenChance);
                 }
             }
@@ -100,13 +111,40 @@ public class EventCardManager : Singleton<EventCardManager>
             {
                 return;
             }
+
             var selectedId = RandomUtil.RandomBasedOnProbabilityMaxWith100(probability);
             if (selectedId != -1)
             {
-                var taxData = new EventInfoData(){eventInfo = newEventCandidateList[selectedId],timer = 0};
+                var taxData = new EventInfoData() { eventInfo = newEventCandidateList[selectedId], timer = 0 };
                 currentEventList.Add(taxData);
                 EventPool.Trigger("updateEvent");
             }
         }
+    }
+    
+    
+
+    public Dictionary<string, float> DurationEffect()
+    {
+        var res = new Dictionary<string, float>();
+        foreach (var currentEvent in currentEventList)
+        {
+            if (currentEvent.eventInfo.durationEffect != null)
+            {
+                foreach (var pair in currentEvent.eventInfo.durationEffect)
+                {
+                    if (res.ContainsKey(pair.Key))
+                    {
+                        res[pair.Key] += pair.Value;
+                    }
+                    else
+                    {
+                        res[pair.Key] = pair.Value;
+                    }
+                }
+            }
+        }
+
+        return res;
     }
 }

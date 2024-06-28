@@ -11,6 +11,7 @@ public class EventCard : MonoBehaviour
     public ProgressBar progressBar;
 
     private EventInfoData data;
+    public Image image;
 
     public Button button;
     // Start is called before the first frame update
@@ -31,6 +32,7 @@ public class EventCard : MonoBehaviour
     public void Init(EventInfoData data)
     {
         this.data = data;
-        description.text = data.eventInfo.eventDescription;
+        image.sprite = data.eventInfo.sprite;
+        description.text = data.eventInfo.eventShortDescription;
     }
 }

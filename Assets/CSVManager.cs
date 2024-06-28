@@ -37,6 +37,8 @@ public class EventInfo
 {
     public string eventId;
     public string eventName;
+    public string eventShortDescription;
+    public Sprite sprite =>Resources.Load<Sprite>("event/"+eventId);
     public string eventDescription;
     public string eventDetailDescription;
     public Dictionary<string,float> costWhenTimeFinish;
@@ -95,16 +97,16 @@ public class CSVManager : Singleton<CSVManager>
             eventInfoDict[eventInfo.eventId] = eventInfo;
             eventInfo.costToFinishEvents = new List<Dictionary<string, float>>();
             eventInfo.nameToFinishEvents = new List<string>();
-            if(eventInfo.costToFinishEvent1!=null){
+            if(eventInfo.costToFinishEvent1!=null && eventInfo.nameToFinishEvent1.Length>0){
                 eventInfo.costToFinishEvents.Add(eventInfo.costToFinishEvent1);
                 eventInfo.nameToFinishEvents.Add(eventInfo.nameToFinishEvent1);
             }
-            if(eventInfo.costToFinishEvent2!=null){
+            if(eventInfo.costToFinishEvent2!=null && eventInfo.nameToFinishEvent2.Length>0){
                 eventInfo.costToFinishEvents.Add(eventInfo.costToFinishEvent2);
                 eventInfo.nameToFinishEvents.Add(eventInfo.nameToFinishEvent2);
                 
             }
-            if(eventInfo.costToFinishEvent3!=null){
+            if(eventInfo.costToFinishEvent3!=null && eventInfo.nameToFinishEvent3.Length>0){
                 eventInfo.costToFinishEvents.Add(eventInfo.costToFinishEvent3);
                 eventInfo.nameToFinishEvents.Add(eventInfo.nameToFinishEvent3);
             }

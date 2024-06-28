@@ -1,13 +1,13 @@
-﻿actionId,actionName,actionDescription,adjacentAffectType,startCheck,actionDurationEffect,isFood,isAccessory,actionEffect,tile,tileType,actionCost,actionTime,image
-fishing,fishing,increase benefit for any adjacent same tile,sameTileBenefit,,money:0.2|polution:1,1,,,,shallowWater,human:1|money:1,1,fishing
-protect,protect,you can't do action on any nearby area,blockActionAround,noActionAround,polution:-1,,,,,shallowWater,tech:1|money:1,2,protect
-coralHarvest,coralHarvest,increase benefit for any adjacent same tile,sameTileBenefit,,money:2|polution:2,,1,,coralReef,,money:3|human:1,2,harvest
-coralTransplantation,coralTransplantation,"increase benefit for any adjacent same tile,only works if there is other coral tile nearby",sameTileBenefit,sameTileAround,polution:-1,,,,coralReef,,tech:5|human:2,4,coralTransplantation
-tourism,tourism,increase benefit for any adjacent different tile,differentTileBenefit,,human:0.1|polution:1|money:1,,,,,shallowWater|land,human:3,2,tourism
-research,research,increase benefit for any adjacent same tile,sameTileBenefit,,tech:1,,,,,shallowWater,tech:1|money:1,4,research
-restaurant,restaurant,"increase for each fish,seagrassHarvest action you have",food,,money:1|human:0.1|polution:1,,,polution:3,,land,money:3|human:1,4,restaurant
-accessoryStore,accessoryStore,increase for each coralHarvest you have,accessory,,money:2|human:0.2|polution:1,,,polution:3,,land,money:3|human:1,4,accessoryStore
-seagrassHarvest,seagrassHarvest,increase benefit for any adjacent same tile,sameTileBenefit,,money:2|polution:2,1,,,seagrassBed,,money:3|human:1,4,harvest
-oysterHarvest,oysterHarvest,increase benefit for any adjacent same tile,sameTileBenefit,,money:3|polution:3,1,,,oysterReef,,money:5|human:3,2,harvest
-crabFarming,crabFarming,increase benefit for any adjacent same tile,sameTileBenefit,,money:3|polution:3,1,,,redMangroves,,money:5|human:3,4,harvest
-pearlFarming,pearlFarming,increase benefit for any adjacent same tile,sameTileBenefit,,money:3|polution:3,,1,,lagoon,,money:5|human:3,4,harvest
+﻿actionId,tile,actionName,actionDescription,adjacentAffectType,startCheck,actionDurationEffect,isFood,isAccessory,actionEffect,tileType,actionCost,actionTime,image,lockedBy
+fishing,,fishing,increase benefit for any adjacent same tile,sameTileBenefit,,money:1|polution:1,1,,,shallowWater,human:10|money:10,1,fishing,
+tourism,,tourism,increase benefit for any adjacent different tile,differentTileBenefit,,human:1|polution:1|money:1,,,,shallowWater|land,human:30|money:30,2,tourism,
+research,,research,increase benefit for any adjacent same tile,sameTileBenefit,,tech:1,,,,shallowWater,money:30|human:10,4,research,
+protect,,protect,you can't do action on any nearby area,blockActionAround,noActionAround,polution:-10,,,,shallowWater,tech:30|money:10,2,protect,research
+coralHarvest,coralReef,coralHarvest,increase benefit for any adjacent same tile,sameTileBenefit,,money:2|polution:2,,1,,,money:60|human:20,2,harvest,research
+coralTransplantation,coralReef,coralTransplantation,"increase benefit for any adjacent same tile,only works if there is other coral tile nearby",sameTileBenefit,sameTileAround,polution:-20,,,,,tech:50|money:30,4,coralTransplantation,research
+restaurant,,restaurant,"increase for each fish,seagrassHarvest action you have",food,,money:1|human:1|polution:1,,,,land,money:30|human:10,4,restaurant,
+accessoryStore,,accessoryStore,increase for each coralHarvest you have,accessory,,money:2|human:1|polution:1,,,,land,money:60|human:10,4,accessoryStore,
+seagrassHarvest,seagrassBed,seagrassHarvest,increase benefit for any adjacent same tile,sameTileBenefit,,money:2|polution:2,1,,,,money:60|human:20,4,harvest,
+oysterHarvest,oysterReef,oysterHarvest,increase benefit for any adjacent same tile,sameTileBenefit,,money:2|polution:2,1,,,,money:60|human:20,4,harvest,
+crabFarming,redMangroves,crabFarming,increase benefit for any adjacent same tile,sameTileBenefit,,money:2|polution:2,1,,,,money:60|human:20,4,harvest,
+pearlFarming,lagoon,pearlFarming,increase benefit for any adjacent same tile,sameTileBenefit,,money:2|polution:2,,1,,,money:60|human:20,4,harvest,

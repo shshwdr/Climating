@@ -3,12 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ControllerManager : MonoBehaviour
+public class ControllerManager : Singleton<ControllerManager>
 {
     public float zoomSpeed = 10.0f; // Speed of zooming in and out
     public float minZoom = 5.0f; // Minimum camera orthographic size
     public float maxZoom = 20.0f; // Maximum camera orthographic size
     public float panSpeed = 20.0f; // Speed of panning
+
+    public bool canExplore=> exploreCount < maxExploreCount;
+    public bool canBuild=> buildCount < maxBuildCount;
+    public int maxBuildCount = 1;
+    public int maxExploreCount = 1;
+    [HideInInspector]
+    public int buildCount = 0;
+    [HideInInspector]
+    public int exploreCount = 0;
 
     private Vector3 dragOrigin;
     private HexTileController currentSelectedTile;

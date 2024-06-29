@@ -33,7 +33,7 @@ public class EventPage : MenuBase
         this.eventData = eventData;
         image.sprite = eventData.eventInfo.sprite;
          eventName.text = eventData.eventInfo.eventName;
-         var description = eventData.eventInfo.eventDescription;
+         var description = eventData.eventInfo.eventDescription.ReplaceDoubleQuotes();
          
          eventDescription.text = description;
          eventDetailDescription.text = eventData.eventInfo.eventDetailDescription;

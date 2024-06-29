@@ -27,17 +27,33 @@ public class ActionSelectionPage : MenuBase
    {
        confirmButton.onClick.AddListener(() =>
        {
-           hexTile.startAction(actionInfo);
+           if (ControllerManager.Instance.canBuild)
+           {
+               
+               hexTile.startAction(actionInfo);
            
-           //consume cost
-           ResourceManager.Instance.ConsumeResourceValue(actionInfo.actionCost);
-           Hide();
+               //consume cost
+               ResourceManager.Instance.ConsumeResourceValue(actionInfo.actionCost);
+               Hide();
+           }
+           else
+           {
+               
+               ToastManager.Instance.ShowToast("Builders are busy");
+           }
        });
        
        removeButton.onClick.AddListener(() =>
        {
+           if (ControllerManager.Instance.canBuild)
+           {
            hexTile.startStopAction(actionInfo);
            Hide();
+           }
+           else
+           {
+               ToastManager.Instance.ShowToast("Builders are busy");
+           }
        });
    }
 
@@ -106,14 +122,14 @@ public class ActionSelectionPage : MenuBase
          actionDescription.text = info.actionDescription;
          if (isRemoving)
          {
-             actionCost.text = "Time: 2 Day";
+             actionCost.text = $"Time: 2 {Utils.getIconInString("day")}";
          }
          else
          {
-             actionCost.text = "Cost: "+Utils.StringifyDictionary( info.actionCost) +" Time: "+info.actionTime+" Day";
+             actionCost.text = "Cost: "+Utils.StringifyDictionary( info.actionCost) +"\nTime: "+info.actionTime+Utils.getIconInString("day");
          }
          //effect.text ="effect: "+ Utils.StringifyDictionary( info.actionEffect);
-         durationEffect.text = "Effect / Day: \n"+Utils.StringifyDictionary( info.actionDurationEffect);
+         durationEffect.text = $"Effect /{Utils.getIconInString("day")}: \n"+Utils.StringifyDictionary( info.actionDurationEffect);
          durationCurrentEffect.text = "Current Effect Multiplier: "+ this.hexTile.effectMultiplier(info);
          
          

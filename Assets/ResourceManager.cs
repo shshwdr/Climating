@@ -62,6 +62,9 @@ public List<Resource> Resources => resources;
         AddResource((new Resource("tech", 0, 0)));
         AddResource((new Resource("human", 40, 1)));
         AddResource((new Resource("polution", 0, 0)));
+
+        UpdateIncreaseResourceValues();
+        EventPool.Trigger("updateResource");
     }
 
     public float updateTime = 3;
@@ -88,7 +91,19 @@ public List<Resource> Resources => resources;
         {
             if (tile.actionWorks)
             {
-                var multiplier = tile.effectMultiplier();
+                float multiplier = tile.effectMultiplier();
+
+                if (EventCardManager.Instance.durationEffect.ContainsKey("tileProduction") && EventCardManager.Instance
+                        .durationEffect["tileProduction"].ContainsKey(tile.info.tileId))
+                {
+                    multiplier *= (100+ EventCardManager.Instance.durationEffect["tileProduction"][tile.info.tileId])/100f;
+                }
+                if (EventCardManager.Instance.durationEffect.ContainsKey("actionProduction") && EventCardManager.Instance
+                        .durationEffect["actionProduction"].ContainsKey(tile.action.actionId))
+                {
+                    multiplier *= (100+ EventCardManager.Instance.durationEffect["actionProduction"][tile.action.actionId])/100f;
+                }
+                
                 var increase = tile.action.actionDurationEffect;
                 ProduceResourceValueIncreaseWithMultiplier(increase, multiplier);
 
@@ -148,7 +163,7 @@ public List<Resource> Resources => resources;
             ProduceResourceValueIncrease(item.Key, item.Value);
         }
     }
-    public void ProduceResourceValueIncreaseWithMultiplier(Dictionary<string ,float> value, int multiplier)
+    public void ProduceResourceValueIncreaseWithMultiplier(Dictionary<string ,float> value, float multiplier)
     {
         foreach (var item in value)
         {

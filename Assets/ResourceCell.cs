@@ -8,6 +8,7 @@ public class ResourceCell : MonoBehaviour
 {
     public TMP_Text resourceName;
     private string resourceId;
+    public int maxValue = 1000;
     public void Init(string resourceId)
     {
         this.resourceId = resourceId;
@@ -21,6 +22,15 @@ public class ResourceCell : MonoBehaviour
     {
         //float format to string
         
-        resourceName.text =resourceId+": "+Utils. formatFloat(ResourceManager.Instance.GetResource(resourceId).Value) + " +"+ Utils. formatFloat(ResourceManager.Instance.GetResource(resourceId).IncreasePerSecond)+"/day";
+        resourceName.text =$"{Utils.getIconInString(resourceId)} "+Utils. formatFloat(ResourceManager.Instance.GetResource(resourceId).Value) + "\n+"+ Utils. formatFloat(ResourceManager.Instance.GetResource(resourceId).IncreasePerSecond)+$"/{Utils.getIconInString("day")}";
+        if (GetComponentInChildren<ProgressBar>())
+        {
+            GetComponentInChildren<ProgressBar>().UpdateProgress(ResourceManager.Instance.GetResource(resourceId).Value, maxValue);
+            if (ResourceManager.Instance.GetResource(resourceId).Value >= maxValue)
+            {
+                //gameover
+                    GameManager.Instance.Lose();  
+            }
+        }
     }
 }

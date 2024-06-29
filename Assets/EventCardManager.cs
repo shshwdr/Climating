@@ -28,6 +28,8 @@ public class EventCardManager : Singleton<EventCardManager>
     {
         currentEventList.Remove(eventData);
         EventPool.Trigger("updateEvent");
+        
+        UpdateDurationEffect();
     }
 
     // Update is called once per frame
@@ -49,6 +51,8 @@ public class EventCardManager : Singleton<EventCardManager>
                     currentEventList.RemoveAt(i);
                     
                     EventPool.Trigger("updateEvent");
+                    
+                    UpdateDurationEffect();
                 }
             }
         }
@@ -158,33 +162,35 @@ public class EventCardManager : Singleton<EventCardManager>
                 var taxData = new EventInfoData() { eventInfo = newEventCandidateList[selectedId], timer = 0 };
                 currentEventList.Add(taxData);
                 EventPool.Trigger("updateEvent");
+                UpdateDurationEffect();
             }
         }
     }
     
-    
+    public Dictionary<string, Dictionary<string,float>> durationEffect = new Dictionary<string, Dictionary<string,float>>();
 
-    public Dictionary<string, float> DurationEffect()
+    public void UpdateDurationEffect()
     {
-        var res = new Dictionary<string, float>();
+        durationEffect.Clear();
         foreach (var currentEvent in currentEventList)
         {
             if (currentEvent.eventInfo.durationEffect != null)
             {
                 foreach (var pair in currentEvent.eventInfo.durationEffect)
                 {
-                    if (res.ContainsKey(pair.Key))
+                    var keys = pair.Key.Split((('_')));
+                    if (durationEffect.ContainsKey(keys[0]))
                     {
-                        res[pair.Key] += pair.Value;
+                        durationEffect[keys[0]].AddOrUpdate(keys[1], pair.Value);
                     }
                     else
                     {
-                        res[pair.Key] = pair.Value;
+                        durationEffect[keys[0]] = new Dictionary<string, float>();
                     }
                 }
             }
         }
 
-        return res;
+        ResourceManager.Instance.UpdateIncreaseResourceValues();
     }
 }

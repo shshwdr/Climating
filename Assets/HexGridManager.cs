@@ -73,6 +73,8 @@ public class HexTile
     }
     public void startAction(TileActionInfo actionInfo)
     {
+        
+        ControllerManager.Instance.buildCount++;
         action = actionInfo;
         isActioning = true;
         exploreTime = actionInfo.actionTime * 2;
@@ -80,6 +82,7 @@ public class HexTile
     }
     public void startStopAction(TileActionInfo actionInfo)
     {
+        ControllerManager.Instance.buildCount++;
         isRemovingAction = true;
         exploreTime = 2 * 2;
         

@@ -1,15 +1,15 @@
 ﻿actionId,tile,actionName,actionDescription,adjacentAffectType,startCheck,actionDurationEffect,isFood,isAccessory,actionEffect,tileType,actionCost,actionTime,image,lockedBy
-fishing,,Fishing,increase benefit for any adjacent same tile,sameTileBenefit,,money:1|polution:1,1,,,shallowWater,human:10|money:10,4,fishing,
-tourism,,Tourism,increase benefit for any adjacent different tile,differentTileBenefit,,human:1|polution:1|money:1,,,,shallowWater|land,human:30|money:30,8,tourism,
-research,,Research,increase benefit for any adjacent same tile,sameTileBenefit,,tech:1,,,,shallowWater,money:30|human:10,10,research,
+fishing,,Fishing,effect increase for any adjacent same tile,sameTileBenefit,,money:1|polution:1,1,,,shallowWater,human:10|money:10,4,fishing,
+tourism,,Tourism,effect increase for any adjacent different tile,differentTileBenefit,,human:1|polution:1|money:1,,,,shallowWater|land,human:30|money:30,8,tourism,
+research,,Research,effect increase for any adjacent same tile,sameTileBenefit,,tech:1,,,,shallowWater,money:30|human:10,10,research,
 protect,,Protect,you can't do action on any nearby area,blockActionAround,noActionAround,polution:-10,,,,shallowWater,tech:30|money:10,8,protect,research
-coralHarvest,coralReef,CoralHarvest,increase benefit for any adjacent same tile,sameTileBenefit,,money:2|polution:2,,1,,,money:60|human:20,8,harvest,research
-coralTransplantation,coralReef,CoralTransplantation,"increase benefit for any adjacent same tile,only works if there is other coral tile nearby",sameTileBenefit,sameTileAround,polution:-20,,,,,tech:50|money:30,10,coralTransplantation,research
+coralHarvest,coralReef,CoralHarvest,effect increase for any adjacent same tile,sameTileBenefit,,money:2|polution:2,,1,,,money:60|human:20,8,harvest,research
+coralTransplantation,coralReef,CoralTransplantation,"effect increase for any adjacent same tile,only works if there is other coral tile nearby",sameTileBenefit,sameTileAround,polution:-20,,,,,tech:50|money:30,10,coralTransplantation,research
 restaurant,,Restaurant,"increase for each fish,seagrassHarvest action you have",food,,money:1|human:1|polution:1,,,,land,money:30|human:10,10,restaurant,
 accessoryStore,,AccessoryStore,increase for each coralHarvest you have,accessory,,money:2|human:1|polution:1,,,,land,money:60|human:10,10,accessoryStore,
-seagrassHarvest,seagrassBed,SeagrassHarvest,increase benefit for any adjacent same tile,sameTileBenefit,,money:2|polution:2,1,,,,money:60|human:20,10,harvest,
-oysterHarvest,oysterReef,OysterHarvest,increase benefit for any adjacent same tile,sameTileBenefit,,money:2|polution:2,1,,,,money:60|human:20,10,harvest,
-crabFarming,redMangroves,CrabFarming,increase benefit for any adjacent same tile,sameTileBenefit,,money:2|polution:2,1,,,,money:60|human:20,10,harvest,
-pearlFarming,oysterReef,PearlFarming,increase benefit for any adjacent same tile,sameTileBenefit,,money:2|polution:2,,1,,,money:60|human:20,10,harvest,
+seagrassHarvest,seagrassBed,SeagrassHarvest,effect increase for any adjacent same tile,sameTileBenefit,,money:2|polution:2,1,,,,money:60|human:20,10,harvest,
+oysterHarvest,oysterReef,OysterHarvest,effect increase for any adjacent same tile,sameTileBenefit,,money:2|polution:2,1,,,,money:60|human:20,10,harvest,
+crabFarming,redMangroves,CrabFarming,effect increase for any adjacent same tile,sameTileBenefit,,money:2|polution:2,1,,,,money:60|human:20,10,harvest,
+pearlFarming,oysterReef,PearlFarming,effect increase for any adjacent same tile,sameTileBenefit,,money:2|polution:2,,1,,,money:60|human:20,10,harvest,
 Marine Energy Generation,seaCliff,Marine Energy Generation,,,,,,,,,,,,
 habour,seaCliff,,,,,,,,,,,,,

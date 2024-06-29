@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class Utils : MonoBehaviour
 {
+    static HashSet<string> icons = new HashSet<string>(){"money","human","day","polution","tech"};
     public static string StringifyDictionary<T>(Dictionary<string, T> dict)
     {
         StringBuilder sb = new StringBuilder();
@@ -13,15 +14,26 @@ public class Utils : MonoBehaviour
         bool first = true;
         foreach (var kvp in dict)
         {
-            if (!first)
+            if (icons.Contains(kvp.Key))
             {
-                sb.Append(",");
+                
+                AppendValue(sb, kvp.Value);
+                sb.Append($"<sprite name=\"{kvp.Key}\">");
             }
-            first = false;
+            else
+            {
+                
+                if (!first)
+                {
+                    sb.Append(",");
+                }
+                first = false;
 
-            sb.Append(kvp.Key);
+                sb.Append(kvp.Key);
+                AppendValue(sb, kvp.Value);
 
-            AppendValue(sb, kvp.Value);
+            }
+            
         }
 
         //sb.Append("}");
@@ -90,5 +102,10 @@ public class Utils : MonoBehaviour
             // 显示一位小数
             return myFloat.ToString("F1");
         }
+    }
+
+    public static string getIconInString(string id)
+    {
+        return $"<sprite name=\"{id}\">";
     }
 }

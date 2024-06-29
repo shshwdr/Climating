@@ -43,12 +43,20 @@ public class HexTileController : MonoBehaviour
     public void ShowPreExploreView()
     {
         preExploreView.SetActive(true);
-        exploreCostLabel.text = (hexTile.exploreCost).ToString() +" days";
+        exploreCostLabel.text = (hexTile.exploreCost).ToString() +Utils.getIconInString("day");
     }
 
     int ExploreTime()
     {
-        return (int)(hexTile.exploreCost * ResourceManager.Instance.updateTime);
+        float multiplier = 1;
+
+        if (EventCardManager.Instance.durationEffect.ContainsKey("actionProduction") && EventCardManager.Instance
+                .durationEffect["actionProduction"].ContainsKey("time"))
+        {
+            multiplier *= (100+ EventCardManager.Instance.durationEffect["actionProduction"]["time"])/100f;
+        }
+        
+        return (int)(hexTile.exploreCost * ResourceManager.Instance.updateTime * multiplier);
     }
 
     public void HidePreViews()
@@ -97,6 +105,7 @@ public class HexTileController : MonoBehaviour
         ResourceManager.Instance.ProduceResourceValue(actionInfo.actionEffect);
         
         ResourceManager.Instance.UpdateIncreaseResourceValues();
+        ControllerManager.Instance.buildCount--;
        // ResourceManager.Instance.ProduceResourceValueIncrease(actionInfo.actionDurationEffect);
     }
 
@@ -106,6 +115,7 @@ public class HexTileController : MonoBehaviour
         
         ResourceManager.Instance.UpdateIncreaseResourceValues();
         UpdateView();
+        ControllerManager.Instance.buildCount--;
         
     }
 
@@ -118,6 +128,7 @@ public class HexTileController : MonoBehaviour
         }
                 
         ResourceManager.Instance.UpdateIncreaseResourceValues();
+        ControllerManager.Instance.exploreCount--;
     }
     bool isReadyToExplore()
     {
@@ -194,12 +205,22 @@ public class HexTileController : MonoBehaviour
     {
         if (!isExplored)
         {
-            if (isReadyToExplore())
+            if (ControllerManager.Instance.canExplore)
             {
-                hexTile.isExploring = true;
-                exploreTimer = 0;
-                hexTile.exploreTime = ExploreTime();
-                return;
+                
+                if (isReadyToExplore())
+                {
+                    ControllerManager.Instance.exploreCount++;
+                    hexTile.isExploring = true;
+                    exploreTimer = 0;
+                    hexTile.exploreTime = ExploreTime();
+                    return;
+                }
+            }
+            else
+            {
+                
+                ToastManager.Instance.ShowToast("Explorers are busy");
             }
         }
 

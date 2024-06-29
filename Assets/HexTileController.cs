@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -19,6 +20,9 @@ public class HexTileController : MonoBehaviour
     public GameObject preExploreView;
     public TMP_Text exploreCostLabel;
     public HexTile hexTile;
+
+    public Sprite exploreImage;
+    public Sprite buildImage;
     
     public ProgressBar progressBar;
     // Start is called before the first frame update
@@ -138,6 +142,7 @@ public class HexTileController : MonoBehaviour
         {
             exploreTimer+=Time.deltaTime;
             progressBar.gameObject.SetActive(true);
+            progressBar.GetComponent<Image>().sprite = exploreImage;
             progressBar.UpdateProgress(exploreTimer, hexTile.exploreTime);
 
             if (exploreTimer >= exploreTime)
@@ -154,6 +159,7 @@ public class HexTileController : MonoBehaviour
         if ( hexTile.isActioning)
         {
             exploreTimer+=Time.deltaTime;
+            progressBar.GetComponent<Image>().sprite = buildImage;
             progressBar.gameObject.SetActive(true);
             progressBar.UpdateProgress(exploreTimer, hexTile.exploreTime);
 
@@ -169,6 +175,7 @@ public class HexTileController : MonoBehaviour
         if ( hexTile.isRemovingAction)
         {
             exploreTimer+=Time.deltaTime;
+            progressBar.GetComponent<Image>().sprite = buildImage;
             progressBar.gameObject.SetActive(true);
             progressBar.UpdateProgress(exploreTimer, hexTile.exploreTime);
 

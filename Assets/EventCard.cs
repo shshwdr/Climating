@@ -34,5 +34,16 @@ public class EventCard : MonoBehaviour
         this.data = data;
         image.sprite = data.eventInfo.sprite;
         description.text = data.eventInfo.eventShortDescription;
+        if (data.eventInfo.isNegative)
+        {
+            progressBar.progressImage.color = Color.red;
+        }
+        else
+        {
+            var color = Color.white;
+            color.a = 0.5f;
+            progressBar.progressImage.color = color;
+            
+        }
     }
 }

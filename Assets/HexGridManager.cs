@@ -34,7 +34,7 @@ public class HexTile
                 {
                     if (neighbor.action!=null)
                     {
-                        return $"cannot do {actionInfo.actionName} around actioned tile";
+                        return $"Cannot do {actionInfo.actionName} around actioned tile";
                     }
                 }
                 break;
@@ -51,7 +51,7 @@ public class HexTile
 
                 if (!hasAction)
                 {
-                    return  $"should have at least one {info.tileId} around to do {actionInfo.actionName}";
+                    return  $"Should have at least one {info.tileId} around to do {actionInfo.actionName}";
                 }
 
                 break;
@@ -61,23 +61,27 @@ public class HexTile
         {
             if (neighbor.action!=null && neighbor.action.startCheck == "noActionAround")
             {
-                return $"cannot do action around {neighbor.action.actionName}";
+                return $"Cannot do action around {neighbor.action.actionName}";
             }
         }
 
+        if (!ResourceManager.Instance.CanConsumeResourceValue(actionInfo.actionCost))
+        {
+            return "Not Enough Resource";
+        }
         return null;
     }
     public void startAction(TileActionInfo actionInfo)
     {
         action = actionInfo;
         isActioning = true;
-        exploreTime = actionInfo.actionTime;
+        exploreTime = actionInfo.actionTime * 2;
         HexGridManager.Instance.hexTileToControllerDict[this].UpdateView();
     }
     public void startStopAction(TileActionInfo actionInfo)
     {
         isRemovingAction = true;
-        exploreTime = 2;
+        exploreTime = 2 * 2;
         
         HexGridManager.Instance.hexTileToControllerDict[this].UpdateView();
         ResourceManager.Instance.UpdateIncreaseResourceValues();
@@ -258,7 +262,7 @@ public Dictionary<int,HexTile> hexTileDict = new Dictionary<int,HexTile>();
             {
                 var y = -x - z;
                 var tile = new HexTile(x, y, z);
-                tile.exploreCost = math.max(1, (math.abs(x)+math.abs(z))/2);
+                tile.exploreCost = math.max(1, (math.abs(x)+math.abs(z)) *2);
                 hexTileToControllerDict[tile] = null;
                 hexTileDict[tile.GetHashCode()] = tile;
                 if (math.abs(x)+math.abs(z)<=1 && z>=0)

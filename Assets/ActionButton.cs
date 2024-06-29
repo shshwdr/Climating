@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class ActionButton : MonoBehaviour
 {
-    private TileActionInfo info;
+    public TileActionInfo info;
     public Image icon;
     public Button button;
     public GameObject selectedImage;
@@ -18,10 +18,19 @@ public class ActionButton : MonoBehaviour
         });
     }
 
+    public void Select()
+    {
+        selectedImage.SetActive(true);
+    }
+    public void UnSelect()
+    {
+        selectedImage.SetActive(false);
+    }
+
     public void Init(TileActionInfo info)
     {
         this.info = info;
-        icon.sprite = Resources.Load<Sprite>("actionIcon/"+info.image);
+        icon.sprite =info.sprite;
         
     }
     // Start is called before the first frame update

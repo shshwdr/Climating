@@ -17,9 +17,10 @@ public class ActionSelectionPage : MenuBase
    public TMP_Text disableReason;
    public Button confirmButton;
    public Button removeButton;
-
+   public TMP_Text tileName;
    private bool isRemoving = false;
 
+   public Image currentActionImage;
    private HexTile hexTile;
    private TileActionInfo actionInfo;
    private void Awake()
@@ -44,9 +45,12 @@ public class ActionSelectionPage : MenuBase
     {
         this.hexTile = hexTile;
         Show();
+        tileName.text = hexTile.info.tileName;
         if (hexTile.action!=null)
         {
             isRemoving = true;
+            currentActionImage.gameObject.SetActive(true);
+            currentActionImage.sprite = hexTile.action.sprite;
             for (int i = 0; i < selectionButtonParent.childCount; i++)
             {
                 selectionButtonParent.GetChild(i).gameObject.SetActive(false);
@@ -56,6 +60,7 @@ public class ActionSelectionPage : MenuBase
         else
         {
             isRemoving = false;
+            currentActionImage.gameObject.SetActive(false);
             var allAvailableActions = hexTile.info.tileActionInfoList;
             int i = 0;
             for(i = 0;i<allAvailableActions.Count;i++)
@@ -63,6 +68,11 @@ public class ActionSelectionPage : MenuBase
             {
                 selectionButtonParent.GetChild(i).gameObject.SetActive(true);
                 selectionButtonParent.GetChild(i).GetComponent<ActionButton>().Init(allAvailableActions[i]);
+                
+                var reason = hexTile.disableActionReason(allAvailableActions[i]);
+                var color = Color.white;
+                color.a = reason == null ? 1 : 0.5f;
+                selectionButtonParent.GetChild(i).GetComponent<Button>().image.color =  color;
             }
 
             for (; i < selectionButtonParent.childCount; i++)
@@ -76,6 +86,19 @@ public class ActionSelectionPage : MenuBase
 
     public void Show(TileActionInfo info)
     {
+        for (int i = 0; i < selectionButtonParent.childCount; i++)
+        {
+            if (info == selectionButtonParent.GetChild(i).gameObject.GetComponent<ActionButton>().info)
+            {
+                
+                selectionButtonParent.GetChild(i).gameObject.GetComponent<ActionButton>().Select();
+            }
+            else
+            {
+                
+                selectionButtonParent.GetChild(i).gameObject.GetComponent<ActionButton>().UnSelect();
+            }
+        }
         
         disableReason.gameObject.SetActive(false);
         actionInfo = info;
@@ -83,15 +106,15 @@ public class ActionSelectionPage : MenuBase
          actionDescription.text = info.actionDescription;
          if (isRemoving)
          {
-             actionCost.text = "time: 2 day";
+             actionCost.text = "Time: 2 Day";
          }
          else
          {
-             actionCost.text = "cost: "+Utils.StringifyDictionary( info.actionCost) +" time: "+info.actionTime+" day";
+             actionCost.text = "Cost: "+Utils.StringifyDictionary( info.actionCost) +" Time: "+info.actionTime+" Day";
          }
-         effect.text ="effect: "+ Utils.StringifyDictionary( info.actionEffect);
-         durationEffect.text = "duration Effect: "+Utils.StringifyDictionary( info.actionDurationEffect);
-         durationCurrentEffect.text = "current duration Effect multiplier: "+ this.hexTile.effectMultiplier(info);
+         //effect.text ="effect: "+ Utils.StringifyDictionary( info.actionEffect);
+         durationEffect.text = "Effect / Day: \n"+Utils.StringifyDictionary( info.actionDurationEffect);
+         durationCurrentEffect.text = "Current Effect Multiplier: "+ this.hexTile.effectMultiplier(info);
          
          
         
@@ -110,7 +133,7 @@ public class ActionSelectionPage : MenuBase
                 
                  confirmButton.gameObject.SetActive(true);
                  disableReason.gameObject.SetActive(false);
-                 confirmButton.interactable =  ResourceManager.Instance.CanConsumeResourceValue(actionInfo.actionCost);
+                 //confirmButton.interactable =  ResourceManager.Instance.CanConsumeResourceValue(actionInfo.actionCost);
              }
              else
              {

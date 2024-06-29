@@ -30,11 +30,13 @@ public Dictionary<string,float> actionCost;
 public int actionTime;
 public string adjacentAffectType;
 public string image;
+public Sprite sprite =>Resources.Load<Sprite>("actionIcon/"+image);
 public string startCheck;
 }
 
 public class EventInfo
 {
+    public bool isNegative;
     public string eventId;
     public string eventName;
     public string eventShortDescription;

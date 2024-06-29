@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class ProgressBar : MonoBehaviour
 {
     public Image progressImage;
+    
 
     public void UpdateProgress(float current, float max)
     {

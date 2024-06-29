@@ -10,15 +10,17 @@ public class Resource
     public float Value { get; private set; }
     public float IncreasePerSecond { get; private set; }
 
+    public float baseIncreasePerSecond;
+
     public void clearIncreaseValues()
     {
-        IncreasePerSecond = 0;
+        IncreasePerSecond =baseIncreasePerSecond;
     }
     public Resource(string name, float initialValue, float increasePerSecond)
     {
         Name = name;
         Value = initialValue;
-        IncreasePerSecond = increasePerSecond;
+        baseIncreasePerSecond = increasePerSecond;
     }
 
     public void ChangeIncreasePerSecond(float value)

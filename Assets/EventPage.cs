@@ -33,7 +33,9 @@ public class EventPage : MenuBase
         this.eventData = eventData;
         image.sprite = eventData.eventInfo.sprite;
          eventName.text = eventData.eventInfo.eventName;
-         eventDescription.text = eventData.eventInfo.eventDescription;
+         var description = eventData.eventInfo.eventDescription;
+         
+         eventDescription.text = description;
          eventDetailDescription.text = eventData.eventInfo.eventDetailDescription;
 
          foreach (var option in eventOptions)
@@ -44,6 +46,8 @@ public class EventPage : MenuBase
          {
              
              eventOptions[i].gameObject.SetActive(true);
+             eventOptions[i].interactable =
+                 ResourceManager.Instance.CanConsumeResourceValue(eventData.eventInfo.costToFinishEvents[i]);
              var text = eventData.eventInfo.nameToFinishEvents[i] + " cost: ";
              text+=Utils.StringifyDictionary(eventData.eventInfo.costToFinishEvents[i]);
              eventOptions[i].GetComponentInChildren<TMP_Text>().text = text;

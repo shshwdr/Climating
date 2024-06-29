@@ -15,7 +15,7 @@ public class EventCardManager : Singleton<EventCardManager>
 
     private float checkEventTimer = 0;
 
-    private float checkEventTime = 1;
+    private float checkEventTime = 20;
 
     // Start is called before the first frame update
     public void Init()
@@ -86,16 +86,56 @@ public class EventCardManager : Singleton<EventCardManager>
                     continue;
                 }
 
+                Dictionary<string, int> tileWithActionCount = new Dictionary<string, int>();
+                Dictionary<string, int> actionCount = new Dictionary<string, int>();
+                foreach (var tile in HexGridManager.Instance.hexTileDict.Values)
+                {
+                    if (tile.action != null)
+                    {
+                        tileWithActionCount.AddOrUpdate(tile.info.tileId,1);
+                        actionCount.AddOrUpdate(tile.action.actionId,1);
+                    }
+                }
+
                 foreach (var pair in info.happenRequirement)
                 {
                     var keys = pair.Key.Split(('_'));
                     switch (keys[0])
                     {
                         case "resourceCount":
-                            // if (ResourceManager.Instance.GetResourceValue("polution") <= pair.Value)
-                            // {
-                            //     isValid = false;
-                            // }
+                            switch (keys[1])
+                            {
+                                case "larger":
+                                    if (ResourceManager.Instance.GetResourceValue(keys[2]) <= pair.Value)
+                                    {
+                                        isValid = false;
+                                    }
+
+                                    break;
+                                default:
+                                    Debug.LogError(($"Not implemented event requirement {pair.Key} {info.eventId}"));
+                                    break;
+                            }
+                            break;
+                        case "hasActionOnTile":
+                            if (!tileWithActionCount.ContainsKey(keys[1]) || tileWithActionCount[keys[1]] < pair.Value)
+                            {
+                                
+                                isValid = false;
+                            }
+
+                            break;
+                        case "hasAction":
+                            if (!actionCount.ContainsKey(keys[1]) || actionCount[keys[1]] < pair.Value)
+                            {
+                                
+                                isValid = false;
+                            }
+
+                            break;
+                            
+                        default:
+                            Debug.LogError(($"Not implemented event requirement {pair.Key} {info.eventId}"));
                             break;
                     }
                 }
@@ -112,7 +152,7 @@ public class EventCardManager : Singleton<EventCardManager>
                 return;
             }
 
-            var selectedId = RandomUtil.RandomBasedOnProbabilityMaxWith100(probability);
+            var selectedId = RandomUtil.RandomBasedOnProbability(probability);
             if (selectedId != -1)
             {
                 var taxData = new EventInfoData() { eventInfo = newEventCandidateList[selectedId], timer = 0 };
